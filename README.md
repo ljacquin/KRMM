@@ -2,9 +2,18 @@
 
 ## Overview
 
-The KRMM package provides advanced tools for solving kernel ridge regression within the following mixed model framework : 
-$$Y = X\beta + Zu + \varepsilon$$
-where $X$ and $Z$ are design matrices of predictors with fixed and random effects, respectively. It offers flexibility in kernel choice, including linear, polynomial, Gaussian, Laplacian, and ANOVA kernels. The package utilizes the expectation-maximization (EM) algorithm for estimating model components (fixed and random effects) and variance parameters. It also provides the ability to obtain estimates such as BLUP of dual variables and BLUP of random predictor effects for the linear kernel, also known as RR-BLUP.
+The KRMM package provides advanced tools for solving kernel ridge regression within the following mixed model framework:
+
+\[
+Y = X\beta + Zu + \varepsilon
+\]
+
+where \( X \) and \( Z \) are design matrices of predictors with fixed and random effects, respectively. The random effect \( u \) follows a normal distribution \( N_n(0, K_{\sigma^2_{K}}) \), where \( K \) is the genomic covariance matrix (also known as the Gram matrix) built using different kernels.
+
+The package offers flexibility in kernel choice, including linear, polynomial, Gaussian, Laplacian, and ANOVA kernels. The RR-BLUP (Random Regression BLUP) or GBLUP (Genomic BLUP) ```method``` is associated with the linear kernel, while the RKHS (Reproducing Kernel Hilbert Space) ```method``` is associated with the other kernels, with the Gaussian kernel set as the default.
+
+The package utilizes the expectation-maximization (EM) algorithm for estimating model components (fixed and random effects) and variance parameters. Additionally, it provides the ability to obtain estimates such as the BLUP of random effects for the covariates of the linear kernel, also known as RR-BLUP of random effects, and BLUP of dual variables within the kernel ridge regression context.
+
 
 ## Installation
 
