@@ -51,14 +51,14 @@ library(KRMM)
 
 # simulate data
 set.seed(123)
-p <- 500
-n <- 300
-gamma <- rnorm(p, mean = 0, sd = 0.5)
-M <- matrix(runif(p * n, min = 0, max = 1), ncol = p, byrow = T)  # matrix of covariates
-f <- tcrossprod(gamma, M)                                         # data generating process
+p <- 500                                                          # e.g. number of SNP markers
+n <- 300                                                          # e.g. number of phenotypes for a trait
+gamma <- rnorm(p, mean = 0, sd = 0.5)                             # e.g. random effects of SNP markers
+M <- matrix(runif(p * n, min = 0, max = 1), ncol = p, byrow = T)  # matrix of covariates, e.g. genotype matrix
+f <- tcrossprod(gamma, M)                                         # data generating process (DGP), e.g. true genetic model
 eps <- rnorm(n, mean = 0, sd = 0.1)                               # add residuals
-Y <- f + eps                                                      # data generating process (DGP)
-
+Y <- f + eps                                                      # e.g. measured phenotypes (i.e. genetic values 
+                                                                  # + residuals)
 # split data into training and test set
 n_train <- floor(n * 0.67)
 idx_train <- sample(1:n, size = n_train, replace = F)
