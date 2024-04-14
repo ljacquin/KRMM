@@ -1,47 +1,42 @@
-\name{predict_krmm}
-\alias{predict_krmm}
-\encoding{utf8}
+# KRMM: Kernel Ridge Mixed Model
 
-\title{
-  Predict Function for KRMM Object
-}
+## Overview
 
-\description{
-  The \code{predict_krmm} function computes predicted values for a given vector or design matrix of covariates using a \code{krmm} model object.
-}
+The KRMM package provides advanced tools for solving kernel ridge regression within the following mixed model framework : 
+$$Y = X\beta + Zu + \varepsilon$$
+where $X$ and $Z$ are design matrices of predictors with fixed and random effects, respectively. It offers flexibility in kernel choice, including linear, polynomial, Gaussian, Laplacian, and ANOVA kernels. The package utilizes the expectation-maximization (EM) algorithm for estimating model components (fixed and random effects) and variance parameters. It also provides the ability to obtain estimates such as BLUP of dual variables and BLUP of random predictor effects for the linear kernel, also known as RR-BLUP.
 
-\usage{
-  predict_krmm(krmm_model, Matrix_covariates,
-               X = rep(1, nrow(Matrix_covariates)),
-               Z = diag(1, nrow(Matrix_covariates)), add_fixed_effects = FALSE)
-}
+## Installation
 
-\arguments{
-  \item{krmm_model}{a \code{krmm} object}
-  \item{Matrix_covariates}{numeric matrix; design matrix of covariates for target data}
-  \item{X}{numeric matrix; design matrix of predictors with fixed effects for target data (default is a vector of ones)}
-  \item{Z}{numeric matrix; design matrix of predictors with random effects for target data (default is identity matrix)}
-  \item{add_fixed_effects}{logical; should fixed effects be added to the prediction (default is \code{FALSE})}
-}
+You can install the latest version of the KRMM package with:
 
-\details{
-  The \code{Matrix_covariates} argument is mandatory for building the kernel matrix required for prediction, using the covariates from the \code{krmm_model}.
-}
+```R
+install.packages("devtools")
+library(devtools)
+install_github("ljacquin/KRMM")
+```
 
-\value{
-  \item{f_hat or u_hat only}{
-    Predicted values for target data, calculated as \eqn{\hat{f} = X\hat{\beta} + Z\hat{u}}.
-  }
-}
+## Key Features
 
-\author{
-  Laval Jacquin
+    Kernel Regression: Solving ridge regression with a variety of kernels.
+    Mixed Models: Integrating fixed and random effects into the model.
+    EM Algorithm: Utilizing the EM algorithm for parameter estimation.
+    BLUP Estimates: Ability to obtain BLUP of dual variables and random predictor effects for the linear kernel (RR-BLUP).
 
-  Maintainer: Laval Jacquin <jacquin.julien@gmail.com>
-}
+## Main Functions
 
+    krmm: Main function for fitting the KRMM model.
+    predict_krmm: Predicting values for new data.
+    tune_krmm: Tuning the kernel decay rate parameter through K-folds cross-validation.
+    em_reml_mm: EM algorithm for restricted maximum likelihood estimation (REML) within the mixed model framework.
 
-\examples{
+## Examples
+
+### Fitting the KRMM Model
+
+Here's a simple example illustrating the use of the krmm function:
+
+```R
 # load libraries
 library(KRMM)
 
@@ -59,7 +54,7 @@ Y <- f + eps                                                      # data generat
 n_train <- floor(n * 0.67)
 idx_train <- sample(1:n, size = n_train, replace = F)
 
-# train
+# get train data
 M_train <- M[idx_train, ]
 y_train <- Y[idx_train]
 
@@ -77,7 +72,13 @@ non_linear_krmm_model <- krmm(Y = y_train, Matrix_covariates = M_train, method =
 summary(non_linear_krmm_model)
 print(non_linear_krmm_model$beta_hat)
 hist(non_linear_krmm_model$vect_alpha)
+```
 
+### Making Predictions with predict_krmm
+
+Here's an example of how to use the predict_krmm function to make predictions on new data:
+
+```R
 # get test data from matrix of covariates for prediction
 M_test <- M[-idx_train, ]
 
@@ -113,7 +114,13 @@ dev.new()
 plot(f_hat_test, f_test, main = "Gaussian RKHS regression with fixed effects added,
      and default rate of decay (not optimized)")
 cor(f_hat_test, f_test)
+```
 
+### Tuning the rate of decay of specific kernels with K-folds cross-validation 
+
+Here's an example of how to use the tune_krmm function for tuning the rate of decay of Gaussian, Laplacian or ANOVA kernels (see documentation for these kernels):
+
+```R
 # -- tune krmm model with a gaussian kernel and make predictions for test data
 non_linear_opt_krmm_obj <- tune_krmm(
   Y = y_train, Matrix_covariates = M_train,
@@ -138,4 +145,16 @@ f_hat_test <- predict_krmm(non_linear_opt_krmm_model, Matrix_covariates = M_test
 dev.new()
 plot(f_hat_test, f_test, main = "Gaussian RKHS regression with optimized rate of decay")
 cor(f_hat_test, f_test)
-}
+```
+
+## Authors and References
+
+* Author: Laval Jacquin
+* Maintainer: Laval Jacquin jacquin.julien@gmail.com
+
+## References
+
+* Jacquin et al. (2016). A Unified and Comprehensible View of Parametric and Kernel Methods for Genomic Prediction with Application to Rice. Front. Genet. 7:145 (in peer review)
+* Robinson, G. K. (1991). That blup is a good thing: the estimation of random effects. Statistical Science, 534 15-32
+* Foulley, J.-L. (2002). Algorithme em: théorie et application au modèle mixte. Journal de la Société française de Statistique 143, 57-109
+
