@@ -4,11 +4,11 @@
 
 The KRMM package provides advanced tools for solving kernel ridge regression within the following mixed model framework:
 
-\[
+$$
 Y = X\beta + Zu + \varepsilon
-\]
+$$
 
-where \( X \) and \( Z \) are design matrices of predictors with fixed and random effects, respectively. The random effect \( u \) follows a normal distribution \( N_n(0, K_{\sigma^2_{K}}) \), where \( K \) is the genomic covariance matrix (also known as the Gram matrix) built using different kernels.
+where $X$ and $Z$ are design matrices of predictors with fixed and random effects, respectively. The random effect $u$ follows a multivariate normal distribution $N_n(0, K_{\sigma^2_{K}})$, where $K$ is the genomic covariance matrix (also known as the Gram matrix) built using different kernels.
 
 The package offers flexibility in kernel choice, including linear, polynomial, Gaussian, Laplacian, and ANOVA kernels. The RR-BLUP (Random Regression BLUP) or GBLUP (Genomic BLUP) ```method``` is associated with the linear kernel, while the RKHS (Reproducing Kernel Hilbert Space) ```method``` is associated with the other kernels, with the Gaussian kernel set as the default.
 
