@@ -1,7 +1,5 @@
-
 \name{krmm}
 \alias{krmm}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \encoding{utf8}
 
 \title{
@@ -9,84 +7,53 @@
 }
 
 \description{
-krmm solves kernel ridge regression for various kernels within the following mixed model framework: $Y =X\beta + ZU + \varepsilon$, where	X and Z correspond to the design matrices of predictors with fixed and random effects respectively.
+  \code{krmm} solves kernel ridge regression for various kernels within the mixed model framework: \eqn{Y = X\beta + Zu + \epsilon}, where \eqn{X} and \eqn{Z} are design matrices of predictors with fixed and random effects, respectively.
 }
 
 \usage{
-	krmm(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
-           Matrix_covariates, method = "RKHS", kernel = "Gaussian",
-           rate_decay_kernel = 0.1, degree_poly = 2, scale_poly = 1,
-           offset_poly = 1, degree_anova = 3,
-           init_sigma2K = 2, init_sigma2E = 3, convergence_precision = 1e-08,
-           nb_iter = 1000, display = F)
-	}
+  krmm(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
+       Matrix_covariates, method = "RKHS", kernel = "Gaussian",
+       rate_decay_kernel = 0.1, degree_poly = 2, scale_poly = 1,
+       offset_poly = 1, degree_anova = 3,
+       init_sigma2K = 2, init_sigma2E = 3, convergence_precision = 1e-08,
+       nb_iter = 1000, display = FALSE)
+}
 
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-
-	\item{Y}{numeric vector; response vector for training data}
-
-	\item{X}{numeric matrix; design matrix of predictors with fixed effects for training data (default is a vector of ones)}
-
-	\item{Z}{numeric matrix; design matrix of predictors with random effects for training data (default is identity matrix)}
-
-	\item{Matrix_covariates}{numeric matrix of entries used to build the kernel matrix}
-
-	\item{method}{character string; RKHS, GBLUP or RR-BLUP}
-
-	\item{kernel}{character string; Gaussian, Laplacian or ANOVA (kernels for RKHS regression ONLY, the linear kernel is automatically built for GBLUP and RR-BLUP and hence no kernel is supplied for these methods) }
-
-	\item{rate_decay_kernel}{numeric scalar; hyperparameter of the Gaussian, Laplacian or ANOVA kernel (default is 0.1)}
-
-	\item{degree_poly, scale_poly, offset_poly}{numeric scalars; parameters for polynomial kernel (defaults are 2, 1 and 1 respectively)}
-
-	\item{degree_anova}{numeric scalar; parameter for ANOVA kernel (defaults is 3)}
-
-	\item{init_sigma2K, init_sigma2E}{numeric scalars;
-		initial guess values, associated to the mixed model variance parameters, for the EM-REML algorithm
-		(defaults are 2 and 3 respectively)
-		}
-
-	\item{convergence_precision, nb_iter}{
-		numeric scalars; convergence precision (i.e. tolerance) associated to the mixed model variance parameters,
-		for the EM-REML algorithm, and number of maximum iterations allowed if
-		convergence is not reached (defaults are 1e-8 and 1000 respectively)
-	}
-
-	\item{display}{
-		boolean (TRUE or FALSE character string);
-		should estimated components be displayed at each
-		iteration
-	}
-
+  \item{Y}{numeric vector; response vector for training data}
+  \item{X}{numeric matrix; design matrix of predictors with fixed effects for training data (default is a vector of ones)}
+  \item{Z}{numeric matrix; design matrix of predictors with random effects for training data (default is identity matrix)}
+  \item{Matrix_covariates}{numeric matrix; entries for training data used to build the kernel matrix}
+  \item{method}{character string; RKHS, GBLUP, or RR-BLUP}
+  \item{kernel}{character string; Gaussian, Laplacian, or ANOVA (kernels for RKHS regression ONLY, linear kernel for GBLUP and RR-BLUP)}
+  \item{rate_decay_kernel}{numeric scalar; hyperparameter of the kernel (default is 0.1)}
+  \item{degree_poly, scale_poly, offset_poly}{numeric scalars; parameters for polynomial kernel (defaults are 2, 1, and 1)}
+  \item{degree_anova}{numeric scalar; parameter for ANOVA kernel (default is 3)}
+  \item{init_sigma2K, init_sigma2E}{numeric scalars; initial guess values for the EM-REML algorithm (defaults are 2 and 3)}
+  \item{convergence_precision, nb_iter}{numeric scalars; convergence precision and maximum iterations for the EM-REML algorithm (defaults are 1e-8 and 1000)}
+  \item{display}{boolean; display estimated components at each iteration}
 }
 
 \details{
-The matrix Matrix_covariates is mandatory to build the kernel matrix for model estimation, and prediction (see predict_krmm).
+  The matrix \code{Matrix_covariates} is mandatory to build the kernel matrix for model estimation and prediction.
 }
 
 \value{
-
   \item{beta_hat}{estimated fixed effect(s)}
-
   \item{sigma2K_hat, sigma2E_hat}{estimated variance components}
-
   \item{vect_alpha}{estimated dual variables}
-
-  \item{gamma_hat}{RR-BLUP of covariates effects (i.e. available for RR-BLUP method only)}
+  \item{gamma_hat}{RR-BLUP of covariate effects (available for RR-BLUP method only)}
 }
 
 \references{
-
-Jacquin et al. (2016). A unified and comprehensible view of parametric and kernel methods for genomic prediction with application to rice (in peer review).
-
-Robinson, G. K. (1991). That blup is a good thing: the estimation of random effects. Statistical science, 534 15-32
-
-Foulley, J.-L. (2002). Algorithme em: théorie et application au modèle mixte. Journal de la Société française de Statistique 143, 57-109
-
+  Jacquin et al. (2016); Robinson (1991); Foulley (2002)
 }
 
-\author{Laval Jacquin <jacquin.julien@gmail.com>}
+\author{
+  Laval Jacquin
+
+  Maintainer: Laval Jacquin <jacquin.julien@gmail.com>
+}
 
 \examples{
 

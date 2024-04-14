@@ -1,50 +1,45 @@
-
 \name{predict_krmm}
 \alias{predict_krmm}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \encoding{utf8}
 
 \title{
-predict function for krmm object
-%%  ~~function to do ... ~~
+  Predict Function for KRMM Object
 }
 
 \description{
-predict the value(s) for a vector or a design matrix of covariates (i.e. features)
+  The \code{predict_krmm} function computes predicted values for a given vector or design matrix of covariates using a \code{krmm} model object.
 }
 
 \usage{
-predict_krmm(krmm_model, Matrix_covariates,
-          X = rep(1, nrow(Matrix_covariates)),
-          Z = diag(1, nrow(Matrix_covariates)), add_flxed_effects = F)
+  predict_krmm(krmm_model, Matrix_covariates,
+               X = rep(1, nrow(Matrix_covariates)),
+               Z = diag(1, nrow(Matrix_covariates)), add_fixed_effects = FALSE)
 }
 
-%- maybe also 'usage' for other objects documented here.
-
 \arguments{
-
-  \item{krmm_model}{a krmm object}
-
+  \item{krmm_model}{a \code{krmm} object}
   \item{Matrix_covariates}{numeric matrix; design matrix of covariates for target data}
-
   \item{X}{numeric matrix; design matrix of predictors with fixed effects for target data (default is a vector of ones)}
-
   \item{Z}{numeric matrix; design matrix of predictors with random effects for target data (default is identity matrix)}
-
-
- }
+  \item{add_fixed_effects}{logical; should fixed effects be added to the prediction (default is \code{FALSE})}
+}
 
 \details{
-The matrix Matrix_covariates is mandatory to build the kernel matrix (with matrix of covariates from krmm_model) for prediction.
+  The \code{Matrix_covariates} argument is mandatory for building the kernel matrix required for prediction, using the covariates from the \code{krmm_model}.
 }
 
 \value{
-  \item{f_hat or u_hat}{
-  predicted value for target data, i.e. f_hat = $X\beta_hat + Z.\u_hat$
+  \item{f_hat or u_hat only}{
+    Predicted values for target data, calculated as \eqn{\hat{f} = X\hat{\beta} + Z\hat{u}}.
   }
 }
 
-\author{Laval Jacquin <jacquin.julien@gmail.com>}
+\author{
+  Laval Jacquin
+
+  Maintainer: Laval Jacquin <jacquin.julien@gmail.com>
+}
+
 
 \examples{
 

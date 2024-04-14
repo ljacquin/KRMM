@@ -1,88 +1,54 @@
-
 \name{tune_krmm}
 \alias{tune_krmm}
 \encoding{utf8}
 
-\title{Tune kernel ridge regression in the mixed model framework}
+\title{
+  Tune Kernel Ridge Regression in the Mixed Model Framework
+}
 
 \description{
-tune_krmm tunes the rate of decay parameter of kernels, by K-folds cross-validation, for kernel ridge regression
+  The \code{tune_krmm} function tunes the rate of decay parameter of kernels for kernel ridge regression using K-folds cross-validation.
 }
 
 \usage{
-tune_krmm(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
-       Matrix_covariates, method = "RKHS", kernel = "Gaussian", rate_decay_kernel = 0.1,
-       degree_poly = 2, scale_poly = 1, offset_poly = 1, degree_anova = 3,
-       init_sigma2K = 2, init_sigma2E = 3, convergence_precision = 1e-8, nb_iter = 1000, display = F,
-       rate_decay_grid = seq(0.1, 1.0, length.out = 10), nb_folds = 5, loss = "mse")
+  tune_krmm(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
+             Matrix_covariates, method = "RKHS", kernel = "Gaussian", rate_decay_kernel = 0.1,
+             degree_poly = 2, scale_poly = 1, offset_poly = 1, degree_anova = 3,
+             init_sigma2K = 2, init_sigma2E = 3, convergence_precision = 1e-8,
+             nb_iter = 1000, display = FALSE,
+             rate_decay_grid = seq(0.1, 1.0, length.out = 10), nb_folds = 5, loss = "mse")
 }
 
 \arguments{
-
-	\item{rate_decay_grid}{
-	Grid over which the rate of decay is tuned by K-folds cross-validation
-	}
-
-	\item{nb_folds}{
-	Number of folds, i.e. K=nb_folds (default is 5)
-	}
-
-	\item{loss}{ mse (mean square error) or cor (correlation) (default is mse)}
-
-	\item{Y}{numeric vector; response vector}
-
-	\item{X}{numeric matrix; design matrix of predictors with fixed  effects (default is a vector of ones)}
-
-	\item{Z}{numeric matrix; design matrix of predictors with random effects (default is identity matrix)}
-
-	\item{Matrix_covariates}{numeric matrix of entries used to build the kernel matrix}
-
-	\item{method}{character string; RKHS, GBLUP or RR-BLUP}
-
-	\item{kernel}{character string; Gaussian, Laplacian or ANOVA (kernels for RKHS regression ONLY, the linear kernel is automatically built for GBLUP and RR-BLUP and hence no kernel is supplied for these methods) }
-
-	\item{rate_decay_kernel}{	numeric scalar;
-		hyperparameter of the Gaussian, Laplacian or ANOVA kernel (default is 0.1)
-	}
-
-	\item{degree_poly, scale_poly, offset_poly}{numeric scalars; parameters for polynomial kernel (defaults are 2, 1 and 1 respectively)}
-
-	\item{degree_anova}{
-		numeric scalar; parameter for ANOVA kernel (defaults is 3)
-	}
-
-	\item{init_sigma2K, init_sigma2E}{
-		numeric scalars;
-		initial guess values, associated to the mixed model variance parameters, for the EM-REML algorithm
-		(defaults are 2 and 3 respectively)
-		}
-
-	\item{convergence_precision, nb_iter}{
-		numeric scalars; convergence precision (i.e. tolerance) associated to the mixed model variance parameters,
-		for the EM-REML algorithm, and number of maximum iterations allowed if
-		convergence is not reached (defaults are 1e-8 and 1000 respectively)
-	}
-
-	\item{display}{
-		boolean (TRUE or FALSE character string);
-		should estimated components be displayed at each
-		iteration
-	}
-
+  \item{Y}{numeric vector; response vector}
+  \item{X}{numeric matrix; design matrix of predictors with fixed effects (default is a vector of ones)}
+  \item{Z}{numeric matrix; design matrix of predictors with random effects (default is identity matrix)}
+  \item{Matrix_covariates}{numeric matrix; entries used to build the kernel matrix}
+  \item{method}{character string; RKHS, GBLUP, or RR-BLUP}
+  \item{kernel}{character string; Gaussian, Laplacian, or ANOVA}
+  \item{rate_decay_grid}{grid over which the rate of decay is tuned by K-folds cross-validation}
+  \item{nb_folds}{number of folds for cross-validation (default is 5)}
+  \item{loss}{loss function to optimize; "mse" for mean square error or "cor" for correlation (default is "mse")}
+  \item{rate_decay_kernel}{numeric scalar; hyperparameter of the kernel (default is 0.1)}
+  \item{degree_poly, scale_poly, offset_poly}{numeric scalars; parameters for polynomial kernel (defaults are 2, 1, and 1)}
+  \item{degree_anova}{numeric scalar; parameter for ANOVA kernel (default is 3)}
+  \item{init_sigma2K, init_sigma2E}{numeric scalars; initial guess values for variance parameters in the EM-REML algorithm}
+  \item{convergence_precision, nb_iter}{numeric scalars; convergence precision and maximum iterations for the EM-REML algorithm}
+  \item{display}{boolean; display estimated components at each iteration}
 }
-
 
 \value{
-
-\item{optimized_model}{the tuned model (a krmm object)}
-
-\item{mean_loss_grid}{the average loss for each rate of decay tested over the grid}
-
-\item{optimal_h}{the rate of decay minimizing the average loss}
-
+  \item{optimized_model}{the tuned model (a \code{krmm} object)}
+  \item{mean_loss_grid}{average loss for each rate of decay tested over the grid}
+  \item{optimal_h}{rate of decay minimizing the average loss}
 }
 
-\author{Laval Jacquin <jacquin.julien@gmail.com>}
+\author{
+  Laval Jacquin
+
+  Maintainer: Laval Jacquin <jacquin.julien@gmail.com>
+}
+
 
 \examples{
 

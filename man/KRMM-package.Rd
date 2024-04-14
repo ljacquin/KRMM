@@ -3,42 +3,34 @@
 \docType{package}
 \encoding{utf8}
 
-\title{Kernel Ridge Mixed Model}
+\title{
+  Kernel Ridge Mixed Model (KRMM) Package
+}
 
 \description{
-Solves kernel ridge regression, within the the mixed model framework, for the linear, polynomial, Gaussian, Laplacian and ANOVA kernels.
-The model components (i.e. fixed and random effects) and variance parameters are estimated using the expectation-maximization (EM) algorithm.
-All the estimated components and parameters, e.g. BLUP of dual variables and BLUP of random predictor effects for the linear kernel (also known as RR-BLUP), are available.
-The kernel ridge mixed model (KRMM) is described in Jacquin L, Cao T-V and Ahmadi N (2016) A Unified and Comprehensible View of Parametric and Kernel Methods for Genomic Prediction with Application to Rice. Front. Genet. 7:145.}
+  The \code{KRMM} package provides tools for solving kernel ridge regression within the mixed model framework. It supports various kernels including linear, polynomial, Gaussian, Laplacian, and ANOVA. The package uses the expectation-maximization (EM) algorithm to estimate model components (fixed and random effects) and variance parameters. Estimated components and parameters such as BLUP of dual variables and BLUP of random predictor effects for the linear kernel (also known as RR-BLUP) are available.
+}
 
 \details{
-This package solves kernel ridge regression for various kernels within the following mixed model framework: $Y =X\beta + Z.U + \varepsilon$, where X and Z correspond to the design matrices of predictors with fixed and random effects respectively.
-The functions provided with this package are krmm, predict_krmm, tune_krmm and em_reml_mm.
+  The \code{KRMM} package implements kernel ridge regression for various kernels in the mixed model framework defined by \eqn{Y = X\beta + Zu + \epsilon}, where \eqn{X} and \eqn{Z} are the design matrices of predictors with fixed and random effects, respectively. The package provides the following functions: \code{krmm}, \code{predict_krmm}, \code{tune_krmm}, and \code{em_reml_mm}.
 }
 
 \author{
- Laval Jacquin
- Maintainer: Laval Jacquin <jacquin.julien@gmail.com>
- }
+  Laval Jacquin
 
-\references{
-
-Jacquin et al. (2016). A unified and comprehensible view of parametric and kernel methods for genomic prediction with application to rice (in peer review).
-
-Robinson, G. K. (1991). That blup is a good thing: the estimation of random effects. Statistical science, 534 15-32
-
-Foulley, J.-L. (2002). Algorithme em: théorie et application au modèle mixte. Journal de la Société française de Statistique 143, 57-109
-
+  Maintainer: Laval Jacquin <jacquin.julien@gmail.com>
 }
 
-%~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-%~~ the R documentation directory ~~
+\references{
+  Jacquin et al. (2016). A Unified and Comprehensible View of Parametric and Kernel Methods for Genomic Prediction with Application to Rice. Front. Genet. 7:145 (in peer review)
+
+  Robinson, G. K. (1991). That blup is a good thing: the estimation of random effects. Statistical Science, 534 15-32
+
+  Foulley, J.-L. (2002). Algorithme em: théorie et application au modèle mixte. Journal de la Société française de Statistique 143, 57-109
+}
+
 \keyword{ package }
 
-%\seealso{
-%~~ Optional links to other man pages, e.g. ~~
-%~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-%}
 
 \examples{
 
