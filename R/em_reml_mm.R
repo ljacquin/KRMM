@@ -1,22 +1,20 @@
 em_reml_mm <-
   function(Mat_K_inv, Y, X, Z, init_sigma2K, init_sigma2E, convergence_precision,
            nb_iter, display) {
-
-    # build MME components
+    # build mme components
     n <- length(Y)
-    XpX <- t(X) %*% X
-    XpZ <- t(X) %*% Z
-    ZpX <- t(Z) %*% X
-    ZpZ <- t(Z) %*% Z
-    XpY <- t(X) %*% Y
-    ZpY <- t(Z) %*% Y
+    XpX <- crossprod(X)
+    XpZ <- crossprod(X, Z)
+    ZpX <- crossprod(Z, X)
+    ZpZ <- crossprod(Z)
+    XpY <- crossprod(X, Y)
+    ZpY <- crossprod(Z, Y)
     RHS <- c(XpY, ZpY)
 
-    rankX <- qr(X, LAPACK = T)$rank
-    rankK <- qr(Mat_K_inv, LAPACK = T)$rank # The rank of a matrix is equal
-    # to the rank of its inverse (i.e. ranK=ranK_inv)
-    Nb_rows_MME <- length(RHS)
-    l <- Nb_rows_MME - dim(ZpZ)[1] + 1 # Cuu extraction starts at index "l" up to "Nb_rows_MME"
+    rankX <- qr(X, LAPACK = TRUE)$rank
+    rankK <- qr(Mat_K_inv, LAPACK = TRUE)$rank
+    nb_rows_mme_ <- length(RHS)
+    l <- nb_rows_mme_ - nrow(ZpZ) + 1
 
     # initialize parameters
     old_sigma2E <- init_sigma2E
@@ -26,7 +24,7 @@ em_reml_mm <-
     i <- 0
 
     # iterate over variance components through EM steps
-    while (precision1 > convergence_precision & precision2 > convergence_precision) {
+    while (precision1 > convergence_precision && precision2 > convergence_precision) {
       i <- i + 1
 
       lambda <- as.vector((old_sigma2E / old_sigma2K))
@@ -34,15 +32,15 @@ em_reml_mm <-
 
       ginv_LHS <- ginv(LHS)
 
-      gamma <- ginv_LHS %*% RHS
-      eps <- Y - cbind(X, Z) %*% gamma
+      gamma <- crossprod(ginv_LHS, RHS)
+      eps <- Y - crossprod(t(cbind(X, Z)), gamma)
 
-      Cuu <- ginv_LHS[l:Nb_rows_MME, l:Nb_rows_MME]
+      Cuu <- ginv_LHS[l:nb_rows_mme_, l:nb_rows_mme_]
       u <- gamma[l:length(gamma)]
 
-      new_sigma2E <- (t(eps) %*% Y) / (n - rankX)
-      new_sigma2K <- (t(u) %*% Mat_K_inv %*% u +
-        sum(Mat_K_inv * Cuu) * old_sigma2E) / (rankK)
+      new_sigma2E <- crossprod(eps, Y) / (n - rankX)
+      new_sigma2K <- (crossprod(u, crossprod(Mat_K_inv, u)) +
+        sum(Mat_K_inv * Cuu) * old_sigma2E) / rankK
 
       precision1 <- abs(new_sigma2E - old_sigma2E)
       precision2 <- abs(new_sigma2K - old_sigma2K)
