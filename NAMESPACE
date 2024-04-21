@@ -5,6 +5,7 @@ import(kernlab)
 import(cvTools)
 import(robustbase)
 import(foreach)
+import(parallel)
 import(doParallel)
 import(Matrix)
 
