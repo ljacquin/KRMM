@@ -6,7 +6,6 @@ krmm <-
            offset_poly = 1, degree_anova = 3,
            init_sigma2K = 2, init_sigma2E = 3, convergence_precision = 1e-08,
            nb_iter = 1000, display = F) {
-
     # get number of covariates (i.e. features)
     Matrix_covariates <- scale(Matrix_covariates, center = T, scale = T)
     covariates_center <- attr(Matrix_covariates, "scaled:center")
@@ -41,10 +40,11 @@ krmm <-
     } else {
       # special case : linear kernel, i.e. rr-blup and gblup
       if (identical(method, "GBLUP") || identical(method, "RR-BLUP")) {
-        K <- crossprod(t(Matrix_covariates))
+        K <- tcrossprod(Matrix_covariates)
       }
     }
     n <- length(Y)
+    K <- as.matrix(nearPD(K)$mat)
     K_inv <- ginv(K)
 
     MM_components_solved <- em_reml_mm(
@@ -55,15 +55,18 @@ krmm <-
     sigma2K_hat <- as.vector(MM_components_solved$sigma2K_hat)
     sigma2E_hat <- as.vector(MM_components_solved$sigma2E_hat)
     lambda <- (sigma2E_hat / sigma2K_hat)
-    var_y_div_sig2_alpha <- crossprod(Z, crossprod(K, t(Z))) + lambda * diag(1, n)
+
+    var_y_div_sig2_alpha <- crossprod(t(Z), tcrossprod(K, Z)) + lambda * diag(1, n)
+    var_y_div_sig2_alpha <- as.matrix(nearPD(var_y_div_sig2_alpha)$mat)
 
     vect_alpha <- crossprod(
-      crossprod(t(Z), ginv(var_y_div_sig2_alpha)),
+      t(crossprod(Z, ginv(var_y_div_sig2_alpha))),
       Y - crossprod(t(X), beta_hat)
     )
 
     if (identical(method, "RKHS") || identical(method, "GBLUP")) {
       return(list(
+        "X"=X, "Z"=Z,
         "Matrix_covariates" = Matrix_covariates,
         "beta_hat" = beta_hat,
         "sigma2K_hat" = sigma2K_hat, "sigma2E_hat" = sigma2E_hat,
@@ -79,6 +82,7 @@ krmm <-
     } else if (identical(method, "RR-BLUP")) {
       gamma_hat <- crossprod(Matrix_covariates, vect_alpha)
       return(list(
+        "X"=X, "Z"=Z,
         "Matrix_covariates" = Matrix_covariates,
         "beta_hat" = beta_hat, "gamma_hat" = gamma_hat,
         "sigma2K_hat" = sigma2K_hat, "sigma2E_hat" = sigma2E_hat,

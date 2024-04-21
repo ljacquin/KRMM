@@ -4,3 +4,8 @@ import(MASS)
 import(kernlab)
 import(cvTools)
 import(robustbase)
+import(foreach)
+import(doParallel)
+import(Matrix)
+
+
