@@ -13,6 +13,7 @@
 \usage{
   krmm(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
        Matrix_covariates, method = "RKHS", kernel = "Gaussian",
+       center_covariates = T, scale_covariates = F,
        rate_decay_kernel = 0.1, degree_poly = 2, scale_poly = 1,
        offset_poly = 1, degree_anova = 3,
        init_sigma2K = 2, init_sigma2E = 3, convergence_precision = 1e-08,
@@ -24,6 +25,8 @@
   \item{X}{numeric matrix; design matrix of predictors with fixed effects for training data (default is a vector of ones)}
   \item{Z}{numeric matrix; design matrix of predictors with random effects for training data (default is identity matrix)}
   \item{Matrix_covariates}{numeric matrix; entries for training data used to build the kernel matrix}
+  \item{center_covariates}{boolean; center the matrix of covariates}
+  \item{scale_covariates}{boolean; scale the matrix of covariates}
   \item{method}{character string; RKHS, GBLUP, or RR-BLUP}
   \item{kernel}{character string; "Gaussian", "Laplacian" or "ANOVA"" (kernels for RKHS regression ONLY, linear kernel for GBLUP and RR-BLUP)}
   \item{rate_decay_kernel}{numeric scalar; hyperparameter of the kernel (default is 0.1)}

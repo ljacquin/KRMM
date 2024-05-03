@@ -4,10 +4,24 @@ predict_krmm <-
            Z = NULL,
            add_flxed_effects = F) {
     # center and scale target data
-    Matrix_covariates <- scale(Matrix_covariates,
-      center = krmm_model$covariates_center,
-      scale = krmm_model$covariates_scale
-    )
+    if (length(krmm_model$covariates_center) > 0 &&
+      length(krmm_model$covariates_scale) > 0) {
+      Matrix_covariates <- scale(Matrix_covariates,
+        center = krmm_model$covariates_center,
+        scale = krmm_model$covariates_scale
+      )
+    } else if (length(krmm_model$covariates_center) > 0) {
+      Matrix_covariates <- scale(Matrix_covariates,
+        center = krmm_model$covariates_center,
+        scale = F
+      )
+    } else if (length(krmm_model$covariates_scale) > 0) {
+      Matrix_covariates <- scale(Matrix_covariates,
+        center = F,
+        scale = krmm_model$covariates_scale
+      )
+    }
+    # get number of observations and features
     n <- nrow(Matrix_covariates)
     p <- ncol(Matrix_covariates)
 
