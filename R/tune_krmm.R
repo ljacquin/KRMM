@@ -1,5 +1,6 @@
 tune_krmm <- function(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
                       Matrix_covariates, method = "RKHS", kernel = "Gaussian",
+                      center_covariates = T, scale_covariates = F,
                       rate_decay_kernel = 0.1,
                       degree_poly = 2, scale_poly = 1, offset_poly = 1, degree_anova = 3,
                       init_sigma2K = 2, init_sigma2E = 3,
@@ -19,7 +20,7 @@ tune_krmm <- function(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
 
   # center and scale matrix of covariates
   Matrix_covariates_scaled <- scale(Matrix_covariates,
-    center = T, scale = T
+    center = center_covariates, scale = scale_covariates
   )
 
   # test if arguments are compliant
@@ -68,7 +69,9 @@ tune_krmm <- function(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
       model_krmm_ <- krmm(
         Y = y_train_, X = x_train_,
         Z = z_train, Matrix_covariates = Matrix_covariates_train_,
-        method, kernel, rate_decay_kernel = h, degree_poly,
+        method, kernel,
+        center_covariates = F, scale_covariates = F,
+        rate_decay_kernel = h, degree_poly,
         scale_poly, offset_poly, degree_anova, init_sigma2K, init_sigma2E,
         convergence_precision, nb_iter, display
       )
@@ -88,6 +91,7 @@ tune_krmm <- function(Y, X = rep(1, length(Y)), Z = diag(1, length(Y)),
 
   # compute the tuned model for the optimal_h
   optimized_model <- krmm(Y, X, Z, Matrix_covariates, method, kernel,
+    center_covariates = T, scale_covariates = F,
     rate_decay_kernel = optimal_h, degree_poly, scale_poly, offset_poly,
     degree_anova, init_sigma2K, init_sigma2E,
     convergence_precision, nb_iter, display
