@@ -1,3 +1,5 @@
+[<img src="img/krmm.png"/>]()
+
 # KRMM: Kernel Ridge Mixed Model
 
 ## Overview
@@ -103,7 +105,7 @@ plot(f_hat_test, f_test, main = "Linear RKHS regression without fixed effects")
 cor(f_hat_test, f_test)
 
 # with added fixed effects
-f_hat_test <- predict_krmm(linear_krmm_model, Matrix_covariates = M_test, add_flxed_effects = T)
+f_hat_test <- predict_krmm(linear_krmm_model, Matrix_covariates = M_test, add_fixed_effects = T)
 dev.new()
 plot(f_hat_test, f_test, main = "Linear RKHS regression with fixed effects added")
 cor(f_hat_test, f_test)
@@ -118,7 +120,7 @@ plot(f_hat_test, f_test, main = "Gaussian RKHS regression without fixed effects,
 cor(f_hat_test, f_test)
 
 # with added fixed effects
-f_hat_test <- predict_krmm(non_linear_krmm_model, Matrix_covariates = M_test, add_flxed_effects = T)
+f_hat_test <- predict_krmm(non_linear_krmm_model, Matrix_covariates = M_test, add_fixed_effects = T)
 dev.new()
 plot(f_hat_test, f_test, main = "Gaussian RKHS regression with fixed effects added,
      and default rate of decay (not optimized)")
@@ -144,13 +146,13 @@ plot(non_linear_opt_krmm_obj$rate_decay_grid,
 non_linear_opt_krmm_model <- non_linear_opt_krmm_obj$optimized_model
 
 # without fixed effects
-f_hat_test <- predict_krmm(non_linear_opt_krmm_model, Matrix_covariates = M_test, add_flxed_effects = F)
+f_hat_test <- predict_krmm(non_linear_opt_krmm_model, Matrix_covariates = M_test, add_fixed_effects = F)
 dev.new()
 plot(f_hat_test, f_test, main = "Gaussian RKHS regression with optimized rate of decay")
 cor(f_hat_test, f_test)
 
 # with added fixed effects
-f_hat_test <- predict_krmm(non_linear_opt_krmm_model, Matrix_covariates = M_test, add_flxed_effects = T)
+f_hat_test <- predict_krmm(non_linear_opt_krmm_model, Matrix_covariates = M_test, add_fixed_effects = T)
 dev.new()
 plot(f_hat_test, f_test, main = "Gaussian RKHS regression with optimized rate of decay")
 cor(f_hat_test, f_test)
@@ -163,7 +165,7 @@ cor(f_hat_test, f_test)
 
 ## References
 
-* Jacquin et al. (2016). A Unified and Comprehensible View of Parametric and Kernel Methods for Genomic Prediction with Application to Rice. Front. Genet. 7:145 (in peer review)
+* Jacquin et al. (2016). A Unified and Comprehensible View of Parametric and Kernel Methods for Genomic Prediction with Application to Rice. Front. Genet. 7:145
 * Robinson, G. K. (1991). That blup is a good thing: the estimation of random effects. Statistical Science, 534 15-32
 * Foulley, J.-L. (2002). Algorithme em: théorie et application au modèle mixte. Journal de la Société française de Statistique 143, 57-109
 

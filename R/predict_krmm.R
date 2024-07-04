@@ -2,7 +2,7 @@ predict_krmm <-
   function(krmm_model, Matrix_covariates,
            X = NULL,
            Z = NULL,
-           add_flxed_effects = F) {
+           add_fixed_effects = F) {
     # center and scale target data
     if (length(krmm_model$covariates_center) > 0 &&
       length(krmm_model$covariates_scale) > 0) {
@@ -65,7 +65,7 @@ predict_krmm <-
     n_beta <- length(beta_hat)
 
     #  compute f_hat if add_fixed_effect = TRUE
-    if (add_flxed_effects) {
+    if (add_fixed_effects) {
       if (is.null(X)) {
         X <- rep(1, n)
         if (n_beta > 1) {
