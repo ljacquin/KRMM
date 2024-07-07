@@ -2,6 +2,20 @@
 
 # KRMM: Kernel Ridge Mixed Model
 
+##### Licence, status and metrics
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)]()
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+![GitHub repo size](https://img.shields.io/github/repo-size/ljacquin/KRMM)
+![GitHub language count](https://img.shields.io/github/languages/count/ljacquin/KRMM)
+![GitHub top language](https://img.shields.io/github/languages/top/ljacquin/KRMM)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ljacquin/KRMM)  
+![GitHub all releases](https://img.shields.io/github/downloads/ljacquin/KRMM/total)
+![GitHub stars](https://img.shields.io/github/stars/ljacquin/KRMM)  
+
+##### Languages and technologies
+[![R Badge](https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white)](https://www.r-project.org/)
+
 ## Overview
 
 The KRMM package provides advanced tools for solving kernel ridge regression within the following mixed model framework:
