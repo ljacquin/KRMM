@@ -1,5 +1,4 @@
 [<img src="img/krmm.png"/>]()
-
 # KRMM: Kernel Ridge Mixed Model
 
 ##### Licence, status and metrics
