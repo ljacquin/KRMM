@@ -55,11 +55,12 @@ krmm <-
         # special case : linear kernel, i.e. rr-blup and gblup
         if (identical(method, "GBLUP") || identical(method, "RR-BLUP")) {
           K <- tcrossprod(Matrix_covariates)
+          K <- K/sum(diag(K))
         }
       }
       n <- length(Y)
       K <- as.matrix(nearPD(K)$mat)
-      K_inv <- ginv(K/max(K))
+      K_inv <- ginv(K)
 
       MM_components_solved <- em_reml_mm(
         K_inv, Y, X, Z, init_sigma2K, init_sigma2E,
