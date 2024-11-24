@@ -59,7 +59,7 @@ krmm <-
       }
       n <- length(Y)
       K <- as.matrix(nearPD(K)$mat)
-      K_inv <- ginv(K/sum(diag(K)))
+      K_inv <- ginv(K/max(K))
 
       MM_components_solved <- em_reml_mm(
         K_inv, Y, X, Z, init_sigma2K, init_sigma2E,
