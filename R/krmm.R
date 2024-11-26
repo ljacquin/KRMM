@@ -16,13 +16,13 @@ krmm <-
     covariates_scale <- attr(Matrix_covariates, "scaled:scale")
 
     if (sum(is.nan(Matrix_covariates)) > 0) {
-        warning(
-          "Scaling produces NaN, the covariates matrix may contain columns with zero
+      warning(
+        "Scaling produces NaN, the covariates matrix may contain columns with zero
           or near-zero variance, krmm cannot proceed. Please, use scale_covariates = F,
           or remove near-zero variance before using krmm.
           "
-        )
-        return(NULL)
+      )
+      return(NULL)
     } else {
       p <- ncol(Matrix_covariates)
 
@@ -30,19 +30,20 @@ krmm <-
       if (identical(method, "RKHS")) {
         # gaussian kernel
         if (identical(kernel, "Gaussian")) {
-          kernel_function <- rbfdot(sigma = (1 / p) * rate_decay_kernel)
-
+          kernel_function <- rbfdot(
+            sigma = (1 / p) * rate_decay_kernel
+          )
           # laplacian kernel
         } else if (identical(kernel, "Laplacian")) {
-          kernel_function <- laplacedot(sigma = (1 / p) * rate_decay_kernel)
-
+          kernel_function <- laplacedot(
+            sigma = (1 / p) * rate_decay_kernel
+          )
           # polynomial kernel
         } else if (identical(kernel, "Polynomial")) {
           kernel_function <- polydot(
             degree = degree_poly,
             scale = scale_poly, offset = offset_poly
           )
-
           # anova kernel
         } else if (identical(kernel, "ANOVA")) {
           kernel_function <- anovadot(
@@ -51,16 +52,16 @@ krmm <-
           )
         }
         K <- kernelMatrix(kernel_function, Matrix_covariates)
+        K <- as.matrix(nearPD(K)$mat)
+        K_inv <- ginv(K / max(K))
       } else {
         # special case : linear kernel, i.e. rr-blup and gblup
         if (identical(method, "GBLUP") || identical(method, "RR-BLUP")) {
           K <- tcrossprod(Matrix_covariates)
+          K <- as.matrix(nearPD(K)$mat)
+          K_inv <- ginv(K / p)
         }
       }
-      n <- length(Y)
-      K <- as.matrix(nearPD(K)$mat)
-      K_inv <- ginv(K/max(K))
-
       MM_components_solved <- em_reml_mm(
         K_inv, Y, X, Z, init_sigma2K, init_sigma2E,
         convergence_precision, nb_iter, display
@@ -70,7 +71,7 @@ krmm <-
       sigma2E_hat <- as.vector(MM_components_solved$sigma2E_hat)
       lambda <- (sigma2E_hat / sigma2K_hat)
 
-      var_y_div_sig2_alpha <- crossprod(t(Z), tcrossprod(K, Z)) + lambda * diag(1, n)
+      var_y_div_sig2_alpha <- crossprod(t(Z), tcrossprod(K, Z)) + lambda * diag(1, length(Y))
       var_y_div_sig2_alpha <- as.matrix(nearPD(var_y_div_sig2_alpha)$mat)
 
       vect_alpha <- crossprod(
