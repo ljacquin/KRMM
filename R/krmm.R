@@ -52,16 +52,15 @@ krmm <-
           )
         }
         K <- kernelMatrix(kernel_function, Matrix_covariates)
-        K <- as.matrix(nearPD(K)$mat)
-        K_inv <- ginv(K / max(K))
       } else {
         # special case : linear kernel, i.e. rr-blup and gblup
         if (identical(method, "GBLUP") || identical(method, "RR-BLUP")) {
           K <- tcrossprod(Matrix_covariates)
-          K <- as.matrix(nearPD(K)$mat)
-          K_inv <- ginv(K / p)
         }
       }
+      K <- as.matrix(nearPD(K)$mat)
+      K_inv <- ginv(K / max(K))
+
       MM_components_solved <- em_reml_mm(
         K_inv, Y, X, Z, init_sigma2K, init_sigma2E,
         convergence_precision, nb_iter, display
